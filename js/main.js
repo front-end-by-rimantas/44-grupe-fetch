@@ -1,23 +1,34 @@
 // import * as allData from '../data/list.js';
 // import { data } from '../data/list.js';
 
-const ulDOM = document.querySelector('ul');
+import { renderUsersList } from "./users.js";
 
-const data = fetch('https://front-end-by-rimantas.github.io/44-grupe-fetch/data/users.json')
-    .then((response) => {
-        return response.json();
-    })
-    .then((data) => {
-        for (const user of data) {
-            console.log(user);
+
+const url = 'https://front-end-by-rimantas.github.io/44-grupe-fetch';
+
+const sourceCSS = '/css/main.css';
+fetch(url + sourceCSS)
+    .then(res => res.text())
+    .then(css => {
+        const headDOM = document.querySelector('head');
+        if (headDOM) {
+            headDOM.insertAdjacentHTML('beforeend', `<style>${css}</style>`);
         }
     });
 
+const sourceUsers = '/data/users2.json';
+fetch(url + sourceUsers)
+    .then(res => res.json())
+    .then(renderUsersList)
+    .catch(console.error)
+    .finally(() => {
+        console.log('GRAND FINAL!!!');
+    });
 
-// let HTML = '';
+// console.log('START');
 
-// for (const item of data) {
-//     HTML += `<li>${item.id}) ${item.text}</li>`;
-// }
+// const res = await fetch(url + sourceUsers);
+// const data = await res.json();
+// renderUsersList(data);
 
-// ulDOM.innerHTML = HTML;
+// console.log('END');
